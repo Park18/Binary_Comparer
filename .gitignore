@@ -8,3 +8,5 @@
 */Debug
 
 *.csv
+Binary_Compare/ffuzzy.hpp
+Binary_Compare/ffuzzypp
