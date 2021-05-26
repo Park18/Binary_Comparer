@@ -1,27 +1,25 @@
-#pragma once
+#pragma warning(disable:4996)
+#ifndef COMPARER_HPP
+#define COMPARER_HPP
+
 #include <iostream>
 #include <vector>
 
 #include <fstream>
 #include <boost/filesystem.hpp>
 
-#include <json/json.h>
+#include "Fuzzy_System.hpp"
 
-namespace bfs = boost::filesystem;
 using namespace std;
-
-#define ORIGINAL_MOD 1
-#define MODULATION_MOD 0
+namespace bfs = boost::filesystem;
 
 struct LOG
 {
-	string file_name;
-	int size;
-	int unlike_count;
-	double percentage;
+	bfs::path original;
+	bfs::path modulation;
+	digest_comparison_score_t score;
 
-public:
-	LOG(string file_name, int size, int unlike_count, double percentage) : file_name(file_name), size(size), unlike_count(unlike_count), percentage(percentage) {};
+	LOG(bfs::path original, bfs::path modulation, digest_comparison_score_t score) : original(original), modulation(modulation), score(score) {};
 };
 
 class Comparer
@@ -30,25 +28,16 @@ private:
 	vector<bfs::path> original_file_list;
 	vector<bfs::path> modulation_file_list;
 
-	//vector<char> original_file_buffer;
-	//vector<char> modulation_file_buffer;
-	char* original_buffer;
-	char* modulation_buffer;
-	int original_buffer_size;
-	int modulation_buffer_size;
-
 	vector<LOG> log_list;
 
 private:
-	void list_init(bfs::path original_directory, bfs::path modulation_directory);
-	void buffer_init(bfs::path file, int mod);
-	void buffer_init(bfs::path orignial_file, bfs::path modulation_file);
+	void original_list_init(bfs::path original_directory);
+	void modulation_list_init(bfs::path modulation_directory, string modulation_extension);
 
 public:
-	Comparer(bfs::path original_directory, bfs::path modulation_directory);
+	Comparer(bfs::path original_directory, bfs::path modulation_directory, string modulation_extension);
 
-	LOG compare(bfs::path original_file, bfs::path modulation_file);
-	bool log_to_file();
 	void run();
 };
 
+#endif // !COMPARER_HPP
