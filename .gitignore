@@ -6,6 +6,8 @@
 /.vs
 /Debug
 */Debug
+/x64
+*/x64
 
 *.csv
 Binary_Compare/ffuzzy.hpp
