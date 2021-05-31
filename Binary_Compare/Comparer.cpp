@@ -11,29 +11,44 @@ void Comparer::original_list_init(bfs::path original_directory)
 	}
 }
 
-void Comparer::modulation_list_init(bfs::path modulation_directory, string modulation_extension)
+void Comparer::modulation_list_init(bfs::path modulation_directory)
 {
-	for (bfs::path original_file : original_file_list)
+	//for (bfs::path original_file : original_file_list)
+	//{
+	//	bfs::path modulation_file = modulation_directory;
+	//	modulation_file.append(original_file.filename().string() + modulation_extension);
+	//
+	//	// 확장자가 안붙는 변조파일이 존재함
+	//	if (!bfs::exists(modulation_file))
+	//	{
+	//		modulation_file = modulation_directory;
+	//		modulation_file.append(original_file.filename().string());
+	//	}
+	//
+	//	if (!bfs::is_directory(modulation_file))
+	//	{
+	//		modulation_file_list.push_back(modulation_file);
+	//	}
+	//}
+
+	for (bfs::path file : bfs::directory_iterator(modulation_directory))
 	{
-		bfs::path modulation_file = modulation_directory;
-		modulation_file.append(original_file.filename().string() + modulation_extension);
-	
-		if (!bfs::is_directory(modulation_file))
+		if (!bfs::is_directory(file))
 		{
-			modulation_file_list.push_back(modulation_file);
+			modulation_file_list.push_back(file);
 		}
 	}
 }
 
-Comparer::Comparer(bfs::path original_directory, bfs::path modulation_directory, string modulation_extension)
+Comparer::Comparer(bfs::path original_directory, bfs::path modulation_directory)
 {
 	original_list_init(original_directory);
-	modulation_list_init(modulation_directory, modulation_extension);
+	modulation_list_init(modulation_directory);
 }
 
-void Comparer::run()
+void Comparer::run(string file_name)
 {
-	ofstream write_handle("log.csv");
+	ofstream write_handle(file_name);
 
 	for (int index = 0; index < original_file_list.size(); index++)
 	{	

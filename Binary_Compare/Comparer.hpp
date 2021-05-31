@@ -32,12 +32,12 @@ private:
 
 private:
 	void original_list_init(bfs::path original_directory);
-	void modulation_list_init(bfs::path modulation_directory, string modulation_extension);
+	void modulation_list_init(bfs::path modulation_directory);
 
 public:
-	Comparer(bfs::path original_directory, bfs::path modulation_directory, string modulation_extension);
+	Comparer(bfs::path original_directory, bfs::path modulation_directory);
 
-	void run();
+	void run(string file_name);
 };
 
 #endif // !COMPARER_HPP
